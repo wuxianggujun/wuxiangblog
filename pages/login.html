@@ -1,0 +1,58 @@
+<% include header.html %>
+<div class="login">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">输入框</label>
+            <div class="layui-input-inline">
+                <input type="text" name="phone" required lay-verify="required|phone" placeholder="请输入标题"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码框</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required lay-verify="required|password" placeholder="请输入密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit lay-filter="userLogin">立即提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({
+            phone: function (value) {
+                if (value.length < 5) {
+                    return '电话不正确';
+                }
+            }
+            , password: function (value) {
+                if (!/^\S{6,12}$/.test(value)) {
+                    return '密码必须6到12位，且不能出现空格'
+                }
+            }
+        });
+
+        //提交事件
+        form.on('submit(userLogin)', function (data) {
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            return false;
+        });
+
+    });
+</script>
+
+<% include footer.html "%>
